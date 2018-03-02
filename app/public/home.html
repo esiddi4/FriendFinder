@@ -10,13 +10,17 @@
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <style>
-        .jumbotron {
+        body {
             background-image: url(https://www.stitch.net/wp-content/uploads/2014/11/Friends-2.jpg);
+            background-size: 100%;
             background-repeat: no-repeat;
-            background-size: cover;
+            background-attachment: fixed;
+        }
+
+        .jumbotron {
+            background: transparent;
             padding: 50px;
-            height: 100vh;
-            ;
+            height: 90vh;
         }
 
         h1,
@@ -33,7 +37,7 @@
 </head>
 
 <body>
-    <!-- <div class="container"> -->
+
     <div class="jumbotron">
         <h1 style="color:white">FRIEND FINDER</h1>
         <h3>Answer a few basic personality questions.</h3>
@@ -47,13 +51,15 @@
         </a>
 
     </div>
-    <!-- </div> -->
 
-
-
-
-
-
+    <div class="footer">
+        <div class="container" style="margin-left: 50px">
+            <p>
+                <a href="/api/friends">API Friends Link</a> |
+                <a href="https://github.com/esiddi4/FriendFinder">GitHub Repo</a>
+            </p>
+        </div>
+    </div>
 
     <!-- Latest compiled & minified JS -->
     <script src="https://code.jquery.com/jquery.js"></script>
