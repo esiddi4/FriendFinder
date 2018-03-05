@@ -33,7 +33,9 @@ module.exports = function (app) {
             var scoresDiff = 0;
             // Compare friends in friendsData with currentUser
             for (var j = 0; j < currentUserScores.length; j++) {
-                scoresDiff += (Math.abs(parseInt(friendsData[i].scores[j]) - parseInt(currentUserScores[j])));
+                var friendsIndivScores = friendsData[i]["scores[]"];
+                console.log(friendsIndivScores);
+                scoresDiff += (Math.abs(parseInt(friendsIndivScores[j]) - parseInt(currentUserScores[j])));
             }
             //push results into scoresDiffArr
             scoresDiffArr.push(scoresDiff);
@@ -41,15 +43,14 @@ module.exports = function (app) {
 
         //after all friends are compared, find best match
         for (var i = 0; i < scoresDiffArr.length; i++) {
-            if (scoresDiffArr[i] <= scoresDiffArr[bestMatch]) {
-                bestMatch = i;
+            if (scoresDiffArr[i] <= scoresDiffArr[bestMatchIndex]) {
+                bestMatchIndex = i;
             }
         }
 
         //return bestMatch data
-        var bestMatch = friendsData[bestMatch];
+        var bestMatch = friendsData[bestMatchIndex];
         res.json(bestMatch);
-        console.log(bestMatch);
         //pushes new submission into the friendsData array
         friendsData.push(req.body);
     });
