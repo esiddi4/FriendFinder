@@ -22,6 +22,7 @@ module.exports = function(app) {
     // Submit survey data to server
     app.post('/api/friends', function(req, res){
         friendsData.push(req.body);
+        console.log(req.body);
     });
 
     app.post("/api/clear", function() {
