@@ -53,6 +53,7 @@
                     <h4>Your mind is always buzzing with unexplored ideas and plans.</h4>
                 </label>
                 <select class="form-control" id="q1">
+                    <option value=""></option>
                     <option value="1">1 (Strongly Disagree)</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -67,6 +68,7 @@
                     <h4>Generally speaking, you rely more on your experience than your imagination.</h4>
                 </label>
                 <select class="form-control" id="q2" aria-placeholder="Select an option">
+                    <option value=""></option>
                     <option value="1">1 (Strongly Disagree)</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -81,6 +83,7 @@
                     <h4>You find it easy to stay relaxed and focused even when there is some pressure.</h4>
                 </label>
                 <select class="form-control" id="q3">
+                    <option value=""></option>
                     <option value="1">1 (Strongly Disagree)</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -95,6 +98,7 @@
                     <h4>You rarely do something just out of sheer curiosity.</h4>
                 </label>
                 <select class="form-control" id="q4">
+                    <option value=""></option>
                     <option value="1">1 (Strongly Disagree)</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -109,6 +113,7 @@
                     <h4>People can rarely upset you.</h4>
                 </label>
                 <select class="form-control" id="q5">
+                    <option value=""></option>
                     <option value="1">1 (Strongly Disagree)</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -123,6 +128,7 @@
                     <h4>It is often difficult for you to relate to other people’s feelings.</h4>
                 </label>
                 <select class="form-control" id="q6">
+                    <option value=""></option>
                     <option value="1">1 (Strongly Disagree)</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -137,6 +143,7 @@
                     <h4>In a discussion, truth should be more important than people’s sensitivities.</h4>
                 </label>
                 <select class="form-control" id="q7">
+                    <option value=""></option>
                     <option value="1">1 (Strongly Disagree)</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -151,6 +158,7 @@
                     <h4>You rarely get carried away by fantasies and ideas.</h4>
                 </label>
                 <select class="form-control" id="q8">
+                    <option value=""></option>
                     <option value="1">1 (Strongly Disagree)</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -166,6 +174,7 @@
                         or not.</h4>
                 </label>
                 <select class="form-control" id="q9">
+                    <option value=""></option>
                     <option value="1">1 (Strongly Disagree)</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -180,6 +189,7 @@
                     <h4>You feel more energetic after spending time with a group of people.</h4>
                 </label>
                 <select class="form-control" id="q10">
+                    <option value=""></option>
                     <option value="1">1 (Strongly Disagree)</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -187,8 +197,10 @@
                     <option value="5">5 (Strongly Agree)</option>
                 </select>
             </div>
-
-            <button type="submit" class="btn btn-primary btn-lg btn-block" id="submit">Submit</button>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary btn-lg btn-block" id="submit" data-toggle="modal">
+                Submit
+            </button>
         </form>
         <div class="footer">
             <div class="container">
@@ -196,6 +208,27 @@
                     <a href="/api/friends">API Friends Link</a> |
                     <a href="https://github.com/esiddi4/FriendFinder">GitHub Repo</a>
                 </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="bestMatchModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" style="display: inline-block">Best Match</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                        <h5 id="matchName"></h5>
+                        <img id="matchPic" src="" alt="No Image" width = 250px>            
+                </div>
+                <div class="modal-footer">
+                    <a href="/home"><button type="button" class="btn btn-secondary" data-dismiss="modal">Try again</button></a>
+                </div>
             </div>
         </div>
     </div>
@@ -229,24 +262,32 @@
                 $("#q10").val()
             ]
         };
-        
-        console.log(newFriend);
 
-        $.post("/api/friends", newFriend, function(data){
-            // Clear form content when submitting
-            $("#name").val("");
-            $("#photo").val("");
-            $("#q1").val();
-            $("#q2").val();
-            $("#q3").val();
-            $("#q4").val();
-            $("#q5").val();
-            $("#q6").val();
-            $("#q7").val();
-            $("#q8").val();
-            $("#q9").val();
-            $("#q10").val();
+        //Grabs current URL of website
+        var currentURL = window.location.origin;
+        //AJAX posts the data to friends API.
+        $.post(currentURL + "/api/friends", newFriend, function (data) {
+            //Grab the result from the AJAX post so that the best match's name and photo are displayed.
+            $("#matchName").text(data.name);
+            $("#matchPic").attr("src", data.photo);
         });
+
+        // Show the modal with the best match
+        $('.modal').modal();
+
+        //clear form after submission
+        $('#name').val("");
+        $('#photo').val("");
+        $('#q1').val("");
+        $('#q2').val("");
+        $('#q3').val("");
+        $('#q4').val("");
+        $('#q5').val("");
+        $('#q6').val("");
+        $('#q7').val("");
+        $('#q8').val("");
+        $('#q9').val("");
+        $('#q10').val("");
 
     });
 
